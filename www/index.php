@@ -5,6 +5,7 @@ include "param.php";
 // je veux faire un commit 
 
 
+
 $query = "SELECT t.id_train, G1.nom_gare AS depart,G2.nom_gare AS arrivee,t.heure_depart,t.heure_arrivee,TIMEDIFF(t.heure_arrivee,t.heure_depart) AS duree\n"
 
 . "FROM train t\n"
