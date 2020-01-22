@@ -1,3 +1,4 @@
+<?php
 include "param.php";
 
 // C'est la meilleur façon d'exécuter une requête SQL
@@ -6,7 +7,7 @@ include "param.php";
 
 
 
-$query = "SELECT t.id_train, G1.nom_gare AS depart,G2.nom_gare AS arrivee,t.heure_depart,t.heure_arrivee,TIMEDIFF(t.heure_arrivee,t.heure_depart) AS duree\n"
+$sql = "SELECT t.id_train, G1.nom_gare AS depart,G2.nom_gare AS arrivee,t.heure_depart,t.heure_arrivee,TIMEDIFF(t.heure_arrivee,t.heure_depart) AS duree\n"
 
 . "FROM train t\n"
 
@@ -18,13 +19,13 @@ $query = "SELECT t.id_train, G1.nom_gare AS depart,G2.nom_gare AS arrivee,t.heur
 
 
 // Exécution de la requête
-$result = mysql_query($query);
+$result = $conn->query($sql);
 
 // Vérification du résultat
 // Ceci montre la requête envoyée à MySQL ainsi que l'erreur. Utile pour déboguer.
 if (!$result) {
     $message  = 'Requête invalide : ' . mysql_error() . "\n";
-    $message .= 'Requête complète : ' . $query;
+    $message .= 'Requête complète : ' . $sql;
     die($message);
 }
 
@@ -64,14 +65,14 @@ echo "<table>
             <td>ville arrivee</td>
         </tr>";
 
-while ($row = mysql_fetch_assoc($result)) {
+while($row = $result->fetch_assoc())  {
     echo "<tr>";
 
-    echo "<td>".$row['id']."</td>";
-    echo "<td>".$row['Heure Dep']."</td>";
-    echo "<td>".$row['Heure Arr']."</td>";
-    echo "<td>".$row['Gare Dep']."</td>";
-    echo "<td>".$row['Gare Arr']."</td>";
+    echo "<td>".$row['id_train']."</td>";
+    echo "<td>".$row['heure_depart']."</td>";
+    echo "<td>".$row['heure_arrivee']."</td>";
+    echo "<td>".$row['id_gare_depart']."</td>";
+    echo "<td>".$row['id_gare_arrivee']."</td>";
 
     echo "</tr>";
 
@@ -83,5 +84,5 @@ echo "</tbody>
 
 // Libération des ressources associées au jeu de résultats
 // Ceci est effectué automatiquement à la fin du script
-mysql_free_result($result);
+#mysql_free_result($result);
 ?>
